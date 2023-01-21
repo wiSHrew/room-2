@@ -70,37 +70,37 @@ windowGlass.position.z = 1;
 
 //lightbulb
 let lightbulbposX = 0
-let lightbulbposY = 0
-let lightbulbposZ = 0
+let lightbulbposY = 2.35
+let lightbulbposZ = 1
 
 const lightbulbG = new THREE.SphereGeometry( 0.1, 64, 32 );
 const lightbulbM = new THREE.MeshBasicMaterial({color: 0xF5EA5A, transparent: true, opacity: .9});
 const lightbulb = new THREE.Mesh( lightbulbG, lightbulbM );
 lightbulb.receiveShadow = true;
 scene.add( lightbulb );
-lightbulb.position.x = 0;
-lightbulb.position.y = 2.35;
-lightbulb.position.z = 1;
+lightbulb.position.x = lightbulbposX;
+lightbulb.position.y = lightbulbposY;
+lightbulb.position.z = lightbulbposZ;
 
-let lightbulbBaseRadius = .2
-const lightbulbBaseG = new THREE.CylinderGeometry( lightbulbBaseRadius, lightbulbBaseRadius, 1, 64);
+let lightbulbBaseRadius = .15
+const lightbulbBaseG = new THREE.CylinderGeometry( lightbulbBaseRadius, lightbulbBaseRadius, .01, 64);
 const lightbulbBaseM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
 const lightbulbBase = new THREE.Mesh( lightbulbBaseG, lightbulbBaseM );
 lightbulbBase.receiveShadow = true;
 scene.add( lightbulbBase );
-lightbulbBase.position.x = 0;
-lightbulbBase.position.y = 2.99;
-lightbulbBase.position.z = 1;
+lightbulbBase.position.x = lightbulbposX;
+lightbulbBase.position.y = lightbulbposY + .15;
+lightbulbBase.position.z = lightbulbposZ;
 
 let lightbulbOutletRadius = .05
-const lightbulbOutletG = new THREE.CylinderGeometry( lightbulbOutletRadius, lightbulbOutletRadius, 1 );
+const lightbulbOutletG = new THREE.CylinderGeometry( lightbulbOutletRadius, lightbulbOutletRadius, .1 );
 const lightbulbOutletM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
 const lightbulbOutlet = new THREE.Mesh( lightbulbOutletG, lightbulbOutletM );
 lightbulbOutlet.receiveShadow = true;
 scene.add( lightbulbOutlet );
-lightbulbOutlet.position.x = 0;
-lightbulbOutlet.position.y = 2.9;
-lightbulbOutlet.position.z = 1;
+lightbulbOutlet.position.x = lightbulbposX;
+lightbulbOutlet.position.y = lightbulbposY + .1;
+lightbulbOutlet.position.z = lightbulbposZ;
 
 //world light
 const AmbientLight = new THREE.AmbientLight( 0x404040 );
