@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+import {OrbitControls} from 'js/OrbitControls.js';
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
@@ -9,6 +12,12 @@ document.body.appendChild( renderer.domElement );
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setPixelRatio( window.devicePixelRatio );
+
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.listenToKeyEvents( window );
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.screenSpacePanning = false;
 
 function onWindowResize() {
 
@@ -115,7 +124,7 @@ lightbulbOutlet.position.y = lightbulbposY + .1;
 lightbulbOutlet.position.z = lightbulbposZ;
 
 //wall lamp 1
-const wallLamp1G = new THREE.CylinderGeometry( .3, .3, 1, 64, 32, false, -90*Math.PI/180, Math.PI);
+const wallLamp1G = new THREE.CylinderGeometry( .3, .3, 1, 64, 32, true, -90*Math.PI/180, Math.PI);
 const wallLamp1M = new THREE.MeshStandardMaterial({color: 0x2B3467});
 const wallLamp1 = new THREE.Mesh( wallLamp1G, wallLamp1M );
 wallLamp1.receiveShadow = true;
@@ -152,7 +161,7 @@ scene.add( AmbientLight );
 
 //wall lamp light
 const WallLampLight = new THREE.SpotLight( 0xffffff, 1, 0,  90*Math.PI/180);
-WallLampLight.position.set( 4, 0, -1.5 );
+WallLampLight.position.set( 4, 0, 0 );
 // WallLampLight.map = new THREE.TextureLoader().load( url );
 
 WallLampLight.castShadow = true;
@@ -176,16 +185,19 @@ scene.add( spotLightHelper );
 
 setInterval( onWindowResize, 100);
 
-camera.position.z = 3; //backward
+camera.position.z = 0; //backward
 camera.position.y = 4; //upward
 camera.rotation.x = -90 * Math.PI / 180;
 camera.rotation.y = -45 * Math.PI / 180;
 camera.rotation.z = -90 * Math.PI / 180;
+
 function animate() {
 	requestAnimationFrame( animate );
 
     //wallLamp1.rotation.x += 0.01;
     //wallLamp1.rotation.y += 0.01;
+
+    controls.update();
 
     renderer.render( scene, camera );
 }
