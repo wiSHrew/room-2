@@ -59,14 +59,14 @@ Ceil.position.y = 3;
 Ceil.position.z = 0;
 
 //window
-const windowGlassG = new THREE.BoxGeometry( 6.5, 2.5, 1.1 );
+const windowGlassG = new THREE.BoxGeometry( 1.001, 2.5, 3 );
 const windowGlassM = new THREE.MeshPhongMaterial({color: 0xAEFEFF, shininess: 50});
 const windowGlass = new THREE.Mesh( windowGlassG, windowGlassM );
 windowGlass.receiveShadow = true;
 scene.add( windowGlass );
-windowGlass.position.x = -1;
-windowGlass.position.y = .85;
-windowGlass.position.z = -2.05;
+windowGlass.position.x = 6;
+windowGlass.position.y = .5;
+windowGlass.position.z = 1;
 
 //lightbulb
 const lightbulbG = new THREE.SphereGeometry( .15, 64, 32 );
@@ -79,14 +79,17 @@ lightbulb.position.y = 2.5;
 lightbulb.position.z = 1;
 
 
-const AmbientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
+const AmbientLight = new THREE.AmbientLight( 0x404040 );
 scene.add( AmbientLight );
+
 const PointLight = new THREE.PointLight( 0xffffff, .6, 100 );
 PointLight.castShadow = true;
 scene.add( PointLight );
 PointLight.position.x = 0;
 PointLight.position.y = 2.5;
 PointLight.position.z = 1;
+
+
 
 PointLight.shadow.mapSize.width = 1024;
 PointLight.shadow.mapSize.height = 1024;
