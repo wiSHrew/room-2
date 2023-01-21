@@ -69,25 +69,53 @@ windowGlass.position.y = .5;
 windowGlass.position.z = 1;
 
 //lightbulb
-const lightbulbG = new THREE.SphereGeometry( .15, 64, 32 );
-const lightbulbM = new THREE.MeshPhongMaterial({color: 0xF5EA5A});
+let lightbulbposX = 0
+let lightbulbposY = 0
+let lightbulbposZ = 0
+
+const lightbulbG = new THREE.SphereGeometry( 0.1, 64, 32 );
+const lightbulbM = new THREE.MeshBasicMaterial({color: 0xF5EA5A, transparent: true, opacity: .9});
 const lightbulb = new THREE.Mesh( lightbulbG, lightbulbM );
 lightbulb.receiveShadow = true;
 scene.add( lightbulb );
 lightbulb.position.x = 0;
-lightbulb.position.y = 2.5;
+lightbulb.position.y = 2.35;
 lightbulb.position.z = 1;
 
+let lightbulbBaseRadius = .2
+const lightbulbBaseG = new THREE.CylinderGeometry( lightbulbBaseRadius, lightbulbBaseRadius, 1, 64);
+const lightbulbBaseM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
+const lightbulbBase = new THREE.Mesh( lightbulbBaseG, lightbulbBaseM );
+lightbulbBase.receiveShadow = true;
+scene.add( lightbulbBase );
+lightbulbBase.position.x = 0;
+lightbulbBase.position.y = 2.99;
+lightbulbBase.position.z = 1;
 
+let lightbulbOutletRadius = .05
+const lightbulbOutletG = new THREE.CylinderGeometry( lightbulbOutletRadius, lightbulbOutletRadius, 1 );
+const lightbulbOutletM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
+const lightbulbOutlet = new THREE.Mesh( lightbulbOutletG, lightbulbOutletM );
+lightbulbOutlet.receiveShadow = true;
+scene.add( lightbulbOutlet );
+lightbulbOutlet.position.x = 0;
+lightbulbOutlet.position.y = 2.9;
+lightbulbOutlet.position.z = 1;
+
+//world light
 const AmbientLight = new THREE.AmbientLight( 0x404040 );
 scene.add( AmbientLight );
 
+//lightbulb light
 const PointLight = new THREE.PointLight( 0xffffff, .6, 100 );
 PointLight.castShadow = true;
 scene.add( PointLight );
 PointLight.position.x = 0;
-PointLight.position.y = 2.5;
+PointLight.position.y = 2.35;
 PointLight.position.z = 1;
+
+//window light
+
 
 
 
