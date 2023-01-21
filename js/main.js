@@ -1,6 +1,3 @@
-import * as THREE from 'three';
-import {OrbitControls} from 'js/OrbitControls.js';
-
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
@@ -12,12 +9,6 @@ document.body.appendChild( renderer.domElement );
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setPixelRatio( window.devicePixelRatio );
-
-const controls = new OrbitControls( camera, renderer.domElement );
-controls.listenToKeyEvents( window );
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.screenSpacePanning = false;
 
 function onWindowResize() {
 
@@ -67,14 +58,14 @@ BWall.position.y = 0;
 BWall.position.z = -2;
 
 //ceiling
-// const CeilG = new THREE.BoxGeometry( 12, 1, 4 );
-// const CeilM = new THREE.MeshStandardMaterial( {color: 0xD0B8A8} );
-// const Ceil = new THREE.Mesh( CeilG, CeilM );
-// Ceil.receiveShadow = true;
-// scene.add( Ceil );
-// Ceil.position.x = 0;
-// Ceil.position.y = 3;
-// Ceil.position.z = 0;
+const CeilG = new THREE.BoxGeometry( 12, 1, 4 );
+const CeilM = new THREE.MeshStandardMaterial( {color: 0xD0B8A8} );
+const Ceil = new THREE.Mesh( CeilG, CeilM );
+Ceil.receiveShadow = true;
+scene.add( Ceil );
+Ceil.position.x = 0;
+Ceil.position.y = 3;
+Ceil.position.z = 0;
 
 //window
 const windowGlassG = new THREE.BoxGeometry( 1.001, 3, 2.5 );
@@ -152,28 +143,20 @@ const AmbientLight = new THREE.AmbientLight( 0x404040 );
 scene.add( AmbientLight );
 
 //lightbulb light
-// const LightBulbLight = new THREE.PointLight( 0xffffff, .6, 100 );
-// LightBulbLight.castShadow = true;
-// scene.add( LightBulbLight );
-// LightBulbLight.position.x = 0;
-// LightBulbLight.position.y = 2.35;
-// LightBulbLight.position.z = 1;
+const LightBulbLight = new THREE.PointLight( 0xffffff, .6, 100 );
+LightBulbLight.castShadow = true;
+scene.add( LightBulbLight );
+LightBulbLight.position.x = 0;
+LightBulbLight.position.y = 2.35;
+LightBulbLight.position.z = 1;
 
 //wall lamp light
-const WallLampLight = new THREE.SpotLight( 0xffffff, 1, 0,  90*Math.PI/180);
-WallLampLight.position.set( 4, 0, 0 );
-// WallLampLight.map = new THREE.TextureLoader().load( url );
-
+const WallLampLight = new THREE.SpotLight( 0xffffff, 3, 2, Math.PI/10, .3);
+WallLampLight.position.set( 4, 0, -1.4 );
+WallLampLight.target.position.set(4,100,10);
 WallLampLight.castShadow = true;
-
-WallLampLight.shadow.mapSize.width = 1024;
-WallLampLight.shadow.mapSize.height = 1024;
-
-WallLampLight.shadow.camera.near = 500;
-WallLampLight.shadow.camera.far = 4000;
-WallLampLight.shadow.camera.fov = 30;
-
 scene.add( WallLampLight );
+scene.add(WallLampLight.target);
 
 const spotLightHelper = new THREE.SpotLightHelper( WallLampLight, 0x1A0000 );
 scene.add( spotLightHelper );
@@ -185,19 +168,16 @@ scene.add( spotLightHelper );
 
 setInterval( onWindowResize, 100);
 
-camera.position.z = 0; //backward
-camera.position.y = 4; //upward
-camera.rotation.x = -90 * Math.PI / 180;
-camera.rotation.y = -45 * Math.PI / 180;
-camera.rotation.z = -90 * Math.PI / 180;
-
+camera.position.z = 5; //backward
+// camera.position.y = 4; //upward
+// camera.rotation.x = -90 * Math.PI / 180;
+// camera.rotation.y = -45 * Math.PI / 180;
+// camera.rotation.z = -90 * Math.PI / 180;
 function animate() {
 	requestAnimationFrame( animate );
 
     //wallLamp1.rotation.x += 0.01;
     //wallLamp1.rotation.y += 0.01;
-
-    controls.update();
 
     renderer.render( scene, camera );
 }
