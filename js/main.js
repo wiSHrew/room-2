@@ -2,12 +2,12 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
 
-scene.background = new THREE.Color( 0xffffff );
+scene.background = new THREE.Color( 0xB9F3FC );
 renderer.setSize( window .innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFShadowMap;
 renderer.setPixelRatio( window.devicePixelRatio );
 
 function onWindowResize() {
@@ -24,6 +24,7 @@ const floorG = new THREE.BoxGeometry( 12, 1, 10 );
 const floorM = new THREE.MeshStandardMaterial( { color: 0xDFD3C3 } );
 const floor = new THREE.Mesh( floorG, floorM );
 floor.receiveShadow = true;
+floor.castShadow = true;
 scene.add( floor );
 floor.position.y = -3.3;
 
@@ -34,36 +35,74 @@ const LWallG = new THREE.BoxGeometry( 1, 6, 10 );
 const LWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const LWall = new THREE.Mesh( LWallG, LWallM );
 LWall.receiveShadow = true;
+LWall.castShadow = true;
 scene.add( LWall );
 LWall.position.x = -6;
 LWall.position.y = 0;
 LWall.position.z = 0;
 
 //right wall
-const RWallG = new THREE.BoxGeometry( 1, 6, 10 );
-const RWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
-const RWall = new THREE.Mesh( RWallG, RWallM );
-RWall.receiveShadow = true;
-scene.add( RWall );
-RWall.position.x = 6;
-RWall.position.y = 0;
-RWall.position.z = 0;
+const RWall1G = new THREE.BoxGeometry( .5, 2, 10 );
+const RWall1M = new THREE.MeshStandardMaterial( {color: wallcolor} );
+const RWall1 = new THREE.Mesh( RWall1G, RWall1M );
+RWall1M.receiveShadow = true;
+RWall1M.castShadow = true;
+RWall1M.clipShadows = true;
+scene.add( RWall1 );
+RWall1.position.x = 5.99;
+RWall1.position.y = -1.8;
+RWall1.position.z = 0;
+
+const RWall2G = new THREE.BoxGeometry( .5, 1, 10 );
+const RWall2M = new THREE.MeshStandardMaterial( {color: wallcolor} );
+const RWall2 = new THREE.Mesh( RWall2G, RWall2M );
+RWall2M.receiveShadow = true;
+RWall2M.castShadow = true;
+RWall2M.clipShadows = true;
+scene.add( RWall2 );
+RWall2.position.x = 6;
+RWall2.position.y = 2;
+RWall2.position.z = 0;
+
+const RWall3G = new THREE.BoxGeometry( .5, 3, 2 );
+const RWall3M = new THREE.MeshStandardMaterial( {color: wallcolor} );
+const RWall3 = new THREE.Mesh( RWall3G, RWall3M );
+RWall3M.receiveShadow = true;
+RWall3M.castShadow = true;
+RWall3M.clipShadows = true;
+scene.add( RWall3 );
+RWall3.position.x = 6;
+RWall3.position.y = 0;
+RWall3.position.z = -.5;
+
+const RWall4G = new THREE.BoxGeometry( .5, 3, 1 );
+const RWall4M = new THREE.MeshStandardMaterial( {color: wallcolor} );
+const RWall4 = new THREE.Mesh( RWall4G, RWall4M );
+RWall4M.receiveShadow = true;
+RWall4M.castShadow = true;
+RWall4M.clipShadows = true;
+scene.add( RWall4 );
+RWall4.position.x = 6;
+RWall4.position.y = 0;
+RWall4.position.z = 4.5;
 
 //back wall
-const BWallG = new THREE.BoxGeometry( 12, 6, 1 );
-const BWallM = new THREE.MeshStandardMaterial({color: wallcolor});
-const BWall = new THREE.Mesh( BWallG, BWallM );
-BWall.receiveShadow = true;
-scene.add( BWall );
-BWall.position.x = 0;
-BWall.position.y = 0;
-BWall.position.z = -2;
+const BWall1G = new THREE.BoxGeometry( 12, 6, 1 );
+const BWall1M = new THREE.MeshStandardMaterial({color: wallcolor});
+const BWall1 = new THREE.Mesh( BWall1G, BWall1M );
+BWall1.receiveShadow = true;
+BWall1.castShadow = true;
+scene.add( BWall1 );
+BWall1.position.x = 0;
+BWall1.position.y = 0;
+BWall1.position.z = -2;
 
 //ceiling
 const CeilG = new THREE.BoxGeometry( 12, 1, 10 );
 const CeilM = new THREE.MeshStandardMaterial( {color: 0xDFD3C3} );
 const Ceil = new THREE.Mesh( CeilG, CeilM );
 Ceil.receiveShadow = true;
+Ceil.castShadow = true;
 scene.add( Ceil );
 Ceil.position.x = 0;
 Ceil.position.y = 3;
@@ -178,16 +217,16 @@ const coffeeTableM = new THREE.MeshStandardMaterial( { color: 0xA27B5C } );
 const coffeeTable = new THREE.Mesh( coffeeTableG, coffeeTableM );
 armrest2.receiveShadow = true;
 armrest2.castShadow = true;
-scene.add( coffeeTable );
+// scene.add( coffeeTable );
 coffeeTable.position.y = 0;
 coffeeTable.rotation.x = 90 * Math.PI / 180;
 
 //tv
-const tvG = new THREE.BoxGeometry( 4, 2, 1. );
+const tvG = new THREE.BoxGeometry( 4, 2, 1.1 );
 const tvM = new THREE.MeshStandardMaterial({color: 0x000000});
 const tv = new THREE.Mesh( tvG, tvM );
-tv.metallness = 1;
-tv.roughness = 0;
+tvM.metallness = 1;
+tvM.roughness = 0;
 tv.receiveShadow = true;
 tv.castShadow = true;
 scene.add( tv );
@@ -195,11 +234,9 @@ tv.position.x = 0;
 tv.position.y = 0;
 tv.position.z = -2;
 
-const tvScreenG = new THREE.BoxGeometry( 3.9, 1.9, 1.11 );
-const tvScreenM = new THREE.MeshStandardMaterial({color: 0xffffff});
+const tvScreenG = new THREE.BoxGeometry( 3.9, 1.9, 1.1001 );
+const tvScreenM = new THREE.MeshPhysicalMaterial({color: 0xffffff});
 const tvScreen = new THREE.Mesh( tvScreenG, tvScreenM );
-tv.metallness = 1;
-tv.roughness = 0;
 tvScreen.receiveShadow = true;
 tvScreen.castShadow = true;
 scene.add( tvScreen );
@@ -207,25 +244,74 @@ tvScreen.position.x = 0;
 tvScreen.position.y = 0;
 tvScreen.position.z = -2;
 
+//drawer
+const drawerG = new THREE.BoxGeometry( 6, 1, 1 );
+const drawerM = new THREE.MeshStandardMaterial({color: 0x03001C});
+const drawer = new THREE.Mesh( drawerG, drawerM );
+drawer.receiveShadow = true;
+drawer.castShadow = true;
+scene.add( drawer );
+drawer.position.x = 0;
+drawer.position.y = -2.5;
+drawer.position.z = -1;
+
+const drawerglassG = new THREE.BoxGeometry( 7, .05, 1 );
+const drawerglassM = new THREE.MeshPhysicalMaterial({color: 0xCFD2CF});
+const drawerglass = new THREE.Mesh( drawerglassG, drawerglassM );
+drawerglassM.transparent = true;
+drawerglassM.opacity = .7;
+drawerglassM.metallness = 1;
+drawerglassM.clearcoat = 1;
+drawerglassM.transmission = 1;
+drawerglassM.roughness = 0;
+drawerglassM.metallness = 1;
+drawerglassM.reflectivity = 1;
+drawerglass.receiveShadow = true;
+drawerglass.castShadow = false;
+scene.add( drawerglass );
+drawerglass.position.x = 0;
+drawerglass.position.y = -1.5;
+drawerglass.position.z = -1;
+
+const drawerstand1G = new THREE.CylinderGeometry( .1, .1, .5, 64 );
+const drawerstand1M = new THREE.MeshStandardMaterial({color: 0xD8D8D8});
+const drawerstand1 = new THREE.Mesh( drawerstand1G, drawerstand1M );
+drawerstand1.receiveShadow = true;
+drawerstand1.castShadow = true;
+scene.add( drawerstand1 );
+drawerstand1.position.x = 2.5;
+drawerstand1.position.y = -1.7;
+drawerstand1.position.z = -1;
+
+const drawerstand2G = new THREE.CylinderGeometry( .1, .1, .5, 64 );
+const drawerstand2M = new THREE.MeshStandardMaterial({color: 0xD8D8D8});
+const drawerstand2 = new THREE.Mesh( drawerstand2G, drawerstand2M );
+drawerstand2.receiveShadow = true;
+drawerstand2.castShadow = true;
+scene.add( drawerstand2 );
+drawerstand2.position.x = -2.5;
+drawerstand2.position.y = -1.7;
+drawerstand2.position.z = -1;
+
 //##### SHADOW TEST #####
 
 //shadow test
-const shadowtestG = new THREE.SphereGeometry( .3, 64, 32 );
-const shadowtestM = new THREE.MeshStandardMaterial({color: 0xDC0000});
-const shadowtest = new THREE.Mesh( shadowtestG, shadowtestM );
-shadowtest.receiveShadow = true;
-shadowtest.castShadow = true;
-scene.add( shadowtest );
-shadowtest.position.x = 0;
-shadowtest.position.y = -1;
-shadowtest.position.z = 3;
+// const shadowtestG = new THREE.SphereGeometry( .3, 64, 32 );
+// const shadowtestM = new THREE.MeshStandardMaterial({color: 0xDC0000});
+// const shadowtest = new THREE.Mesh( shadowtestG, shadowtestM );
+// shadowtest.receiveShadow = true;
+// shadowtest.castShadow = true;
+// scene.add( shadowtest );
+// shadowtest.position.x = 0;
+// shadowtest.position.y = -1;
+// shadowtest.position.z = 3;
 
 //#####   LIGHTS   #####
 
 //world light
-const AmbientLight = new THREE.AmbientLight( 0x404040, .5 );
+const AmbientLight = new THREE.AmbientLight( 0x404040, .3 );
 scene.add( AmbientLight );
-const light = new THREE.HemisphereLight( 0x404040, 0x404040, .5 );
+const light = new THREE.HemisphereLight( 0x404040, 0x404040, 1 );
 scene.add( light );
 
 //lightbulb light
@@ -269,6 +355,14 @@ scene.add(WallLamp2Light2.target);
 // const spotLightHelper = new THREE.SpotLightHelper( WallLampLight, 0x1A0000 );
 // scene.add( spotLightHelper );
 
+//sun
+const sun = new THREE.DirectionalLight( 0xffffff, .5 );
+sun.castShadow = true;
+// scene.add( sun );
+sun.position.x = 30;
+sun.position.y = 30;
+
+
 
 
 
@@ -276,10 +370,11 @@ scene.add(WallLamp2Light2.target);
 
 setInterval( onWindowResize, 100);
 
-camera.position.z = 8; //backward
-// camera.position.y = 4; //upward
+// camera.position.x = 10;
+camera.position.z = 8; //backward //8
+// camera.position.y = 2; //upward
 // camera.rotation.x = -90 * Math.PI / 180;
-// camera.rotation.y = -45 * Math.PI / 180;
+// camera.rotation.y = 90 * Math.PI / 180;
 // camera.rotation.z = -90 * Math.PI / 180;
 function animate() {
 	requestAnimationFrame( animate );
