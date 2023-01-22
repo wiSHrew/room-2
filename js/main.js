@@ -21,15 +21,17 @@ function onWindowResize() {
 
 //floor
 const floorG = new THREE.BoxGeometry( 12, 1, 4 );
-const floorM = new THREE.MeshStandardMaterial( { color: 0x3C2A21 } );
+const floorM = new THREE.MeshStandardMaterial( { color: 0xDFD3C3 } );
 const floor = new THREE.Mesh( floorG, floorM );
 floor.receiveShadow = true;
 scene.add( floor );
 floor.position.y = -3.3;
 
+//##### WALLS #####
+let wallcolor = 0xB5D5C5;
 //left wall
 const LWallG = new THREE.BoxGeometry( 1, 6, 4 );
-const LWallM = new THREE.MeshStandardMaterial( {color: 0xE8D2A6} );
+const LWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const LWall = new THREE.Mesh( LWallG, LWallM );
 LWall.receiveShadow = true;
 scene.add( LWall );
@@ -39,7 +41,7 @@ LWall.position.z = 0;
 
 //right wall
 const RWallG = new THREE.BoxGeometry( 1, 6, 4 );
-const RWallM = new THREE.MeshStandardMaterial( {color: 0xE8D2A6} );
+const RWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall = new THREE.Mesh( RWallG, RWallM );
 RWall.receiveShadow = true;
 scene.add( RWall );
@@ -49,7 +51,7 @@ RWall.position.z = 0;
 
 //back wall
 const BWallG = new THREE.BoxGeometry( 12, 6, 1 );
-const BWallM = new THREE.MeshStandardMaterial({color: 0xE8D2A6});
+const BWallM = new THREE.MeshStandardMaterial({color: wallcolor});
 const BWall = new THREE.Mesh( BWallG, BWallM );
 BWall.receiveShadow = true;
 scene.add( BWall );
@@ -85,8 +87,6 @@ let lightbulbposZ = 1
 const lightbulbG = new THREE.SphereGeometry( 0.1, 64, 32 );
 const lightbulbM = new THREE.MeshBasicMaterial({color: 0xF5EA5A});
 const lightbulb = new THREE.Mesh( lightbulbG, lightbulbM );
-lightbulb.receiveShadow = true;
-lightbulb.castShadow = true;  
 scene.add( lightbulb );
 lightbulb.position.x = lightbulbposX;
 lightbulb.position.y = lightbulbposY;
@@ -96,8 +96,6 @@ let lightbulbBaseRadius = .15
 const lightbulbBaseG = new THREE.CylinderGeometry( lightbulbBaseRadius, lightbulbBaseRadius, .01, 64);
 const lightbulbBaseM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
 const lightbulbBase = new THREE.Mesh( lightbulbBaseG, lightbulbBaseM );
-lightbulbBase.receiveShadow = true;
-lightbulbBase.castShadow = true;  
 scene.add( lightbulbBase );
 lightbulbBase.position.x = lightbulbposX;
 lightbulbBase.position.y = lightbulbposY + .15;
@@ -107,34 +105,41 @@ let lightbulbOutletRadius = .05
 const lightbulbOutletG = new THREE.CylinderGeometry( lightbulbOutletRadius, lightbulbOutletRadius, .1 );
 const lightbulbOutletM = new THREE.MeshStandardMaterial({color: 0xDDDDDD});
 const lightbulbOutlet = new THREE.Mesh( lightbulbOutletG, lightbulbOutletM );
-lightbulbOutlet.receiveShadow = true;
-lightbulbOutlet.castShadow = true;  
 scene.add( lightbulbOutlet );
 lightbulbOutlet.position.x = lightbulbposX;
 lightbulbOutlet.position.y = lightbulbposY + .1;
 lightbulbOutlet.position.z = lightbulbposZ;
 
 //wall lamp 1
-const wallLamp1G = new THREE.CylinderGeometry( .3, .3, 1, 64, 32, true, -90*Math.PI/180, Math.PI);
-const wallLamp1M = new THREE.MeshStandardMaterial({color: 0x2B3467});
+let WallLamp1posX = 4;
+let WallLamp1posY = .5;
+let WallLamp1posZ = -1.5;
+const wallLamp1G = new THREE.CylinderGeometry( .2, .2, .5, 64, 32, true, -90*Math.PI/180, Math.PI);
+const wallLamp1M = new THREE.MeshStandardMaterial({color: 0x1A0000});
 const wallLamp1 = new THREE.Mesh( wallLamp1G, wallLamp1M );
-wallLamp1.receiveShadow = true;
+wallLamp1.receiveShadow = false ;
 wallLamp1.castShadow = true;  
 scene.add( wallLamp1 );
-wallLamp1.position.x = 4;
-wallLamp1.position.y = 0;
-wallLamp1.position.z = -1.5;
+wallLamp1.position.x = WallLamp1posX;
+wallLamp1.position.y = WallLamp1posY;
+wallLamp1.position.z = WallLamp1posZ;
+
+//wall lamp 2
+let WallLamp2posX = -4;
+let WallLamp2posY = .5;
+let WallLamp2posZ = -1.5
+const wallLamp2G = new THREE.CylinderGeometry( .2, .2, .5, 64, 32, true, -90*Math.PI/180, Math.PI);
+const wallLamp2M = new THREE.MeshStandardMaterial({color: 0x1A0000});
+const wallLamp2 = new THREE.Mesh( wallLamp2G, wallLamp2M );
+wallLamp2.receiveShadow = false ;
+wallLamp2.castShadow = true;  
+scene.add( wallLamp2 );
+wallLamp2.position.x = WallLamp2posX;
+wallLamp2.position.y = WallLamp2posY;
+wallLamp2.position.z = WallLamp2posZ;
 
 //shadow test
-const testG = new THREE.SphereGeometry( .5, 64, 32 );
-const testM = new THREE.MeshStandardMaterial({color: 0xDC0000});
-const test = new THREE.Mesh( testG, testM );
-test.receiveShadow = true;
-test.castShadow = true;   
-scene.add( test );
-test.position.x = 0;
-test.position.y = 0;
-test.position.z = 0;
+
 
 //#####   LIGHTS   #####
 
@@ -146,20 +151,42 @@ scene.add( AmbientLight );
 const LightBulbLight = new THREE.PointLight( 0xffffff, .6, 100 );
 LightBulbLight.castShadow = true;
 scene.add( LightBulbLight );
-LightBulbLight.position.x = 0;
-LightBulbLight.position.y = 2.35;
-LightBulbLight.position.z = 1;
+LightBulbLight.position.x = lightbulbposX;
+LightBulbLight.position.y = lightbulbposY;
+LightBulbLight.position.z = lightbulbposZ;
 
-//wall lamp light
-const WallLampLight = new THREE.SpotLight( 0xffffff, 3, 2, Math.PI/10, .3);
-WallLampLight.position.set( 4, 0, -1.4 );
-WallLampLight.target.position.set(4,100,10);
-WallLampLight.castShadow = true;
-scene.add( WallLampLight );
-scene.add(WallLampLight.target);
+//wall lamp 1 light
+const WallLamp1Light1 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
+WallLamp1Light1.position.set( WallLamp1posX, WallLamp1posY, WallLamp1posZ+.1 );
+WallLamp1Light1.target.position.set(WallLamp1posX, WallLamp1posY+100, WallLamp1posZ);
+WallLamp1Light1.castShadow = true;
+scene.add( WallLamp1Light1 );
+scene.add(WallLamp1Light1.target);
 
-const spotLightHelper = new THREE.SpotLightHelper( WallLampLight, 0x1A0000 );
-scene.add( spotLightHelper );
+const WallLamp1Light2 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
+WallLamp1Light2.position.set( WallLamp1posX, WallLamp1posY, WallLamp1posZ+.1 );
+WallLamp1Light2.target.position.set(WallLamp1posX, WallLamp1posY-100, WallLamp1posZ);
+WallLamp1Light2.castShadow = true;
+scene.add( WallLamp1Light2 );
+scene.add(WallLamp1Light2.target);
+
+//wall lamp 2 light
+const WallLamp2Light1 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
+WallLamp2Light1.position.set( WallLamp2posX, WallLamp2posY, WallLamp2posZ+.1 );
+WallLamp2Light1.target.position.set(WallLamp2posX, WallLamp2posY+100, WallLamp2posZ);
+WallLamp2Light1.castShadow = true;
+scene.add( WallLamp2Light1 );
+scene.add(WallLamp2Light1.target);
+
+const WallLamp2Light2 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
+WallLamp2Light2.position.set( WallLamp2posX, WallLamp2posY, WallLamp2posZ+.1 );
+WallLamp2Light2.target.position.set(WallLamp2posX, WallLamp2posY-100, WallLamp2posZ);
+WallLamp2Light2.castShadow = true;
+scene.add( WallLamp2Light2 );
+scene.add(WallLamp2Light2.target);
+
+// const spotLightHelper = new THREE.SpotLightHelper( WallLampLight, 0x1A0000 );
+// scene.add( spotLightHelper );
 
 
 
