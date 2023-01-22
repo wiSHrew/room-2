@@ -20,7 +20,7 @@ function onWindowResize() {
 }
 
 //floor
-const floorG = new THREE.BoxGeometry( 12, 1, 4 );
+const floorG = new THREE.BoxGeometry( 12, 1, 10 );
 const floorM = new THREE.MeshStandardMaterial( { color: 0xDFD3C3 } );
 const floor = new THREE.Mesh( floorG, floorM );
 floor.receiveShadow = true;
@@ -30,7 +30,7 @@ floor.position.y = -3.3;
 //##### WALLS #####
 let wallcolor = 0xB5D5C5;
 //left wall
-const LWallG = new THREE.BoxGeometry( 1, 6, 4 );
+const LWallG = new THREE.BoxGeometry( 1, 6, 10 );
 const LWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const LWall = new THREE.Mesh( LWallG, LWallM );
 LWall.receiveShadow = true;
@@ -40,7 +40,7 @@ LWall.position.y = 0;
 LWall.position.z = 0;
 
 //right wall
-const RWallG = new THREE.BoxGeometry( 1, 6, 4 );
+const RWallG = new THREE.BoxGeometry( 1, 6, 10 );
 const RWallM = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall = new THREE.Mesh( RWallG, RWallM );
 RWall.receiveShadow = true;
@@ -61,10 +61,10 @@ BWall.position.z = -2;
 
 //ceiling
 const CeilG = new THREE.BoxGeometry( 12, 1, 4 );
-const CeilM = new THREE.MeshStandardMaterial( {color: 0xD0B8A8} );
+const CeilM = new THREE.MeshStandardMaterial( {color: 0xDFD3C3} );
 const Ceil = new THREE.Mesh( CeilG, CeilM );
 Ceil.receiveShadow = true;
-scene.add( Ceil );
+// scene.add( Ceil );
 Ceil.position.x = 0;
 Ceil.position.y = 3;
 Ceil.position.z = 0;
@@ -138,14 +138,80 @@ wallLamp2.position.x = WallLamp2posX;
 wallLamp2.position.y = WallLamp2posY;
 wallLamp2.position.z = WallLamp2posZ;
 
-//shadow test
+//couch
+let couchposX = -4.7;
+let couchposY = -2.5;
+let couchposZ = 0;
+const couchG = new THREE.BoxGeometry( 1.5, 1, 2.5 );
+const couchM = new THREE.MeshStandardMaterial({color: 0x2B3A55});
+const couch = new THREE.Mesh( couchG, couchM );
+couch.receiveShadow = true;
+couch.castShadow = true;
+scene.add( couch );
+couch.position.x = couchposX;
+couch.position.y = couchposY;
+couch.position.z = couchposZ;
 
+const backrestG = new THREE.BoxGeometry( .3, 1, 2.5 );
+const backrestM = new THREE.MeshStandardMaterial({color: 0x2B3A55});
+const backrest = new THREE.Mesh( backrestG, backrestM );
+backrest.receiveShadow = true;
+backrest.castShadow = true;
+scene.add( backrest );
+backrest.position.x = couchposX-.6;
+backrest.position.y = couchposY+1;
+backrest.position.z = couchposZ;
+
+const armrest1G = new THREE.BoxGeometry( 1.2, .5, .3 );
+const armrest1M = new THREE.MeshStandardMaterial({color: 0x2B3A55});
+const armrest1 = new THREE.Mesh( armrest1G, armrest1M );
+armrest1.receiveShadow = true;
+armrest1.castShadow = true;
+scene.add( armrest1 );
+armrest1.position.x = couchposX+.15;
+armrest1.position.y = couchposY+.75;
+armrest1.position.z = couchposZ+1.1;
+
+const armrest2G = new THREE.BoxGeometry( 1.2, .5, .3 );
+const armrest2M = new THREE.MeshStandardMaterial({color: 0x2B3A55});
+const armrest2 = new THREE.Mesh( armrest2G, armrest2M );
+armrest2.receiveShadow = true;
+armrest2.castShadow = true;
+scene.add( armrest2 );
+armrest2.position.x = couchposX+.15;
+armrest2.position.y = couchposY+.75;
+armrest2.position.z = couchposZ-1.1;
+
+//coffee table
+const coffeeTableG = new THREE.CircleGeometry( 3, 128 );
+const coffeeTableM = new THREE.MeshStandardMaterial( { color: 0xA27B5C } );
+const coffeeTable = new THREE.Mesh( coffeeTableG, coffeeTableM );
+armrest2.receiveShadow = true;
+armrest2.castShadow = true;
+scene.add( coffeeTable );
+coffeeTable.position.y = 0;
+coffeeTable.rotation.x = 90 * Math.PI / 180;
+
+//##### SHADOW TEST #####
+
+//shadow test
+const shadowtestG = new THREE.SphereGeometry( .3, 64, 32 );
+const shadowtestM = new THREE.MeshStandardMaterial({color: 0xDC0000});
+const shadowtest = new THREE.Mesh( shadowtestG, shadowtestM );
+shadowtest.receiveShadow = true;
+shadowtest.castShadow = true;
+scene.add( shadowtest );
+shadowtest.position.x = 0;
+shadowtest.position.y = 0;
+shadowtest.position.z = 0;
 
 //#####   LIGHTS   #####
 
 //world light
-const AmbientLight = new THREE.AmbientLight( 0x404040 );
+const AmbientLight = new THREE.AmbientLight( 0x404040, .5 );
 scene.add( AmbientLight );
+const light = new THREE.HemisphereLight( 0x404040, 0x404040, .5 );
+scene.add( light );
 
 //lightbulb light
 const LightBulbLight = new THREE.PointLight( 0xffffff, .6, 100 );
@@ -195,9 +261,9 @@ scene.add(WallLamp2Light2.target);
 
 setInterval( onWindowResize, 100);
 
-camera.position.z = 5; //backward
-// camera.position.y = 4; //upward
-// camera.rotation.x = -90 * Math.PI / 180;
+camera.position.z = 0; //backward
+camera.position.y = 4; //upward
+camera.rotation.x = -90 * Math.PI / 180;
 // camera.rotation.y = -45 * Math.PI / 180;
 // camera.rotation.z = -90 * Math.PI / 180;
 function animate() {
