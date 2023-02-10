@@ -1,6 +1,11 @@
+import * as THREE from './three.module.js';
+import { FontLoader } from './FontLoader.js';
+import { TextGeometry } from './TextGeometry.js';
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
+const loader = new FontLoader();
 
 scene.background = new THREE.Color( 0xB9F3FC );
 renderer.setSize( window .innerWidth, window.innerHeight );
@@ -18,6 +23,24 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
+
+//text
+loader.load('./CyclopentaneRegular.json', function (font){
+    const tGeometry = new TextGeometry ("Jerome", {
+        font: font,
+        size: 1,
+        height: 5
+    }); 
+
+    textMesh = new THREE.Mesh(tGeometry, [
+        new THREE.MeshPhongMaterial({emmisive: "blue", emissiveIntensity: 5}),
+        new THREE.MeshPhongMaterial({color: "red"})
+    ]);
+
+    scene.add(textMesh);
+    textMesh.position.set(0, 0, 8);
+});
+
 
 //floor
 const floorG = new THREE.BoxGeometry( 12, 1, 10 );
@@ -371,7 +394,7 @@ sun.position.y = 30;
 setInterval( onWindowResize, 100);
 
 // camera.position.x = 10;
-camera.position.z = 8; //backward //8
+camera.position.z = 12; //backward //8
 // camera.position.y = 2; //upward
 // camera.rotation.x = -90 * Math.PI / 180;
 // camera.rotation.y = 90 * Math.PI / 180;
