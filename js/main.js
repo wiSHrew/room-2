@@ -394,7 +394,7 @@ sun.position.y = 30;
 setInterval( onWindowResize, 100);
 
 // camera.position.x = 10;
-camera.position.z = 12; //backward //8
+camera.position.z = 10; //backward //8
 // camera.position.y = 2; //upward
 // camera.rotation.x = -90 * Math.PI / 180;
 // camera.rotation.y = 90 * Math.PI / 180;
