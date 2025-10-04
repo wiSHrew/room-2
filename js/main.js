@@ -25,6 +25,9 @@ function onWindowResize() {
 
 }
 
+let night = 0x000957;
+let day = 0xfbff56;
+let red = 0xff0000;
 
 //floor
 const floorG = new THREE.BoxGeometry( 12, 1, 10 );
@@ -114,6 +117,8 @@ scene.add( Ceil );
 Ceil.position.x = 0;
 Ceil.position.y = 3;
 Ceil.position.z = 0;
+
+//##### FURNITURE #####
 
 //lightbulb
 let lightbulbposX = 0
@@ -218,16 +223,6 @@ armrest2.position.x = couchposX+.15;
 armrest2.position.y = couchposY+.75;
 armrest2.position.z = couchposZ-1.85;
 
-//coffee table
-const coffeeTableG = new THREE.CircleGeometry( 3, 128 );
-const coffeeTableM = new THREE.MeshStandardMaterial( { color: 0xA27B5C } );
-const coffeeTable = new THREE.Mesh( coffeeTableG, coffeeTableM );
-armrest2.receiveShadow = true;
-armrest2.castShadow = true;
-// scene.add( coffeeTable );
-coffeeTable.position.y = 0;
-coffeeTable.rotation.x = 90 * Math.PI / 180;
-
 //tv
 const tvG = new THREE.BoxGeometry( 4, 2, 1.1 );
 const tvM = new THREE.MeshStandardMaterial({color: 0x000000});
@@ -299,6 +294,33 @@ scene.add( drawerstand2 );
 drawerstand2.position.x = -2.5;
 drawerstand2.position.y = -1.7;
 drawerstand2.position.z = -1;
+
+// ##### invisible peeker #####
+const peekerheadG = new THREE.CapsuleGeometry( .7, .7, 4, 8 ); 
+const peekerheadM = new THREE.MeshBasicMaterial({color: 0x000957});
+const peekerhead = new THREE.Mesh( peekerheadG, peekerheadM );
+scene.add( peekerhead );
+
+const eye1G = new THREE.CircleGeometry( .1, 32); 
+const eye1M = new THREE.MeshBasicMaterial( { color: red } ); 
+const eye1 = new THREE.Mesh( eye1G, eye1M );
+eye1.position.set(.3, .5, .7)
+scene.add( eye1 );
+
+const eye2G = new THREE.CircleGeometry( .1, 32); 
+const eye2M = new THREE.MeshBasicMaterial( { color: red } ); 
+const eye2 = new THREE.Mesh( eye2G, eye2M );
+eye2.position.set(-.3, .5, .7)
+scene.add( eye2 );
+
+let peeker = new THREE.Group();
+peeker.add(peekerhead);
+peeker.add(eye1);
+peeker.add(eye2);
+scene.add(peeker);
+
+peeker.position.set(100, -1.2, 0);
+peeker.rotation.y = 325 * Math.PI / 180;
 
 //##### SHADOW TEST #####
 
@@ -396,19 +418,23 @@ function sleep(ms) {
 }
 
 async function horror() {
-    let night = 0x000957;
-    let day = 0xfbff56;
-    let red = 0x4b0000;
+    // let night = 0x000957;
+    // let day = 0xfbff56;
+    // let red = 0x4b0000;
 
     let normalLight = 0xFFC23C;
 
     while (true) {
         // normal sequence
+        peeker.position.set(100, -1.2, 0);
         rectLight1.intensity = 0;
         LightBulbLight.intensity = .6;
         lightbulbM.color.set(0xF5EA5A);
         AmbientLight.intensity = 0.3;
         setGroupColor(walllamps, normalLight);
+        peekerhead.material.color.set(night);
+        eye1.material.color.set(night);
+        eye2.material.color.set(night);
         scene.background = new THREE.Color(day);
         await sleep(1000);
 
@@ -419,6 +445,7 @@ async function horror() {
         }
 
         // horror sequence
+        peeker.position.set(7.2, -1.2, 0);
         rectLight1.intensity = 100;
         LightBulbLight.intensity = 0;
         lightbulbM.color.set(0x000000);
@@ -430,7 +457,10 @@ async function horror() {
         for (let i = 0; i < 10; i++) {
             rectLight1.intensity -= 10;
             AmbientLight.intensity -= 0.1;
-            scene.background.lerp(new THREE.Color(day), 0.1);
+            scene.background.lerp(new THREE.Color(0x000000), 0.2);
+            peekerhead.material.color.lerp(new THREE.Color(0x000000), 0.05);
+            eye1.material.color.lerp(new THREE.Color(red), 0.2);
+            eye2.material.color.lerp(new THREE.Color(red), 0.2);
             await sleep(100);
         }
         await sleep(1000);
