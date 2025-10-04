@@ -430,6 +430,7 @@ async function horror() {
         for (let i = 0; i < 10; i++) {
             rectLight1.intensity -= 10;
             AmbientLight.intensity -= 0.1;
+            scene.background.lerp(new THREE.Color(day), 0.1);
             await sleep(100);
         }
         await sleep(1000);
