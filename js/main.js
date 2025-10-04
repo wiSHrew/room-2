@@ -28,6 +28,8 @@ function onWindowResize() {
 let night = 0x000957;
 let day = 0xfbff56;
 let red = 0xff0000;
+let black = 0x000000;
+let white = 0xffffff;
 
 //floor
 const floorG = new THREE.BoxGeometry( 12, 1, 10 );
@@ -448,7 +450,7 @@ async function horror() {
         peeker.position.set(7.2, -1.2, 0);
         rectLight1.intensity = 100;
         LightBulbLight.intensity = 0;
-        lightbulbM.color.set(0x000000);
+        lightbulbM.color.set(black);
         setGroupColor(walllamps, red);
         scene.background = new THREE.Color(night);
         await sleep(1000);
@@ -457,8 +459,8 @@ async function horror() {
         for (let i = 0; i < 10; i++) {
             rectLight1.intensity -= 10;
             AmbientLight.intensity -= 0.1;
-            scene.background.lerp(new THREE.Color(0x000000), 0.2);
-            peekerhead.material.color.lerp(new THREE.Color(0x000000), 0.05);
+            scene.background.lerp(new THREE.Color(black), 0.2);
+            peekerhead.material.color.lerp(new THREE.Color(black), 0.05);
             eye1.material.color.lerp(new THREE.Color(red), 0.2);
             eye2.material.color.lerp(new THREE.Color(red), 0.2);
             await sleep(100);
