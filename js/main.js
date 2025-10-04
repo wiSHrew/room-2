@@ -1,11 +1,12 @@
 import * as THREE from './three.module.js';
-import { FontLoader } from './FontLoader.js';
-import { TextGeometry } from './TextGeometry.js';
+import { RectAreaLightUniformsLib } from './RectAreaLightUniformsLib.js';
+import { RectAreaLightHelper } from './RectAreaLightHelper.js';
+
+RectAreaLightUniformsLib.init();
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
-const loader = new FontLoader();
 
 scene.background = new THREE.Color( 0xB9F3FC );
 renderer.setSize( window .innerWidth, window.innerHeight );
@@ -23,23 +24,6 @@ function onWindowResize() {
     renderer.setSize( window.innerWidth, window.innerHeight );
 
 }
-
-//text
-loader.load('./CyclopentaneRegular.json', function (font){
-    const tGeometry = new TextGeometry ("Jerome", {
-        font: font,
-        size: 1,
-        height: 5
-    }); 
-
-    textMesh = new THREE.Mesh(tGeometry, [
-        new THREE.MeshPhongMaterial({emmisive: "blue", emissiveIntensity: 5}),
-        new THREE.MeshPhongMaterial({color: "red"})
-    ]);
-
-    scene.add(textMesh);
-    textMesh.position.set(0, 0, 8);
-});
 
 
 //floor
@@ -68,9 +52,9 @@ LWall.position.z = 0;
 const RWall1G = new THREE.BoxGeometry( .5, 2, 10 );
 const RWall1M = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall1 = new THREE.Mesh( RWall1G, RWall1M );
-RWall1M.receiveShadow = true;
-RWall1M.castShadow = true;
-RWall1M.clipShadows = true;
+RWall1.receiveShadow = true;
+RWall1.castShadow = true;
+RWall1.clipShadows = true;
 scene.add( RWall1 );
 RWall1.position.x = 5.99;
 RWall1.position.y = -1.8;
@@ -79,9 +63,9 @@ RWall1.position.z = 0;
 const RWall2G = new THREE.BoxGeometry( .5, 1, 10 );
 const RWall2M = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall2 = new THREE.Mesh( RWall2G, RWall2M );
-RWall2M.receiveShadow = true;
-RWall2M.castShadow = true;
-RWall2M.clipShadows = true;
+RWall2.receiveShadow = true;
+RWall2.castShadow = true;
+RWall2.clipShadows = true;
 scene.add( RWall2 );
 RWall2.position.x = 6;
 RWall2.position.y = 2;
@@ -90,9 +74,9 @@ RWall2.position.z = 0;
 const RWall3G = new THREE.BoxGeometry( .5, 3, 2 );
 const RWall3M = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall3 = new THREE.Mesh( RWall3G, RWall3M );
-RWall3M.receiveShadow = true;
-RWall3M.castShadow = true;
-RWall3M.clipShadows = true;
+RWall3.receiveShadow = true;
+RWall3.castShadow = true;
+RWall3.clipShadows = true;
 scene.add( RWall3 );
 RWall3.position.x = 6;
 RWall3.position.y = 0;
@@ -101,9 +85,9 @@ RWall3.position.z = -.5;
 const RWall4G = new THREE.BoxGeometry( .5, 3, 1 );
 const RWall4M = new THREE.MeshStandardMaterial( {color: wallcolor} );
 const RWall4 = new THREE.Mesh( RWall4G, RWall4M );
-RWall4M.receiveShadow = true;
-RWall4M.castShadow = true;
-RWall4M.clipShadows = true;
+RWall4.receiveShadow = true;
+RWall4.castShadow = true;
+RWall4.clipShadows = true;
 scene.add( RWall4 );
 RWall4.position.x = 6;
 RWall4.position.y = 0;
@@ -248,7 +232,7 @@ coffeeTable.rotation.x = 90 * Math.PI / 180;
 const tvG = new THREE.BoxGeometry( 4, 2, 1.1 );
 const tvM = new THREE.MeshStandardMaterial({color: 0x000000});
 const tv = new THREE.Mesh( tvG, tvM );
-tvM.metallness = 1;
+tvM.metalness = 1;
 tvM.roughness = 0;
 tv.receiveShadow = true;
 tv.castShadow = true;
@@ -283,11 +267,11 @@ const drawerglassM = new THREE.MeshPhysicalMaterial({color: 0xCFD2CF});
 const drawerglass = new THREE.Mesh( drawerglassG, drawerglassM );
 drawerglassM.transparent = true;
 drawerglassM.opacity = .7;
-drawerglassM.metallness = 1;
+drawerglassM.metalness = 1;
 drawerglassM.clearcoat = 1;
 drawerglassM.transmission = 1;
 drawerglassM.roughness = 0;
-drawerglassM.metallness = 1;
+drawerglassM.metalness = 1;
 drawerglassM.reflectivity = 1;
 drawerglass.receiveShadow = true;
 drawerglass.castShadow = false;
@@ -332,9 +316,9 @@ drawerstand2.position.z = -1;
 //#####   LIGHTS   #####
 
 //world light
-const AmbientLight = new THREE.AmbientLight( 0x404040, .3 );
+const AmbientLight = new THREE.AmbientLight( 0xfbff56, .3 );
 scene.add( AmbientLight );
-const light = new THREE.HemisphereLight( 0x404040, 0x404040, 1 );
+const light = new THREE.HemisphereLight( 0xfbff56, 0xfbff56, 1 );
 scene.add( light );
 
 //lightbulb light
@@ -375,23 +359,21 @@ WallLamp2Light2.castShadow = true;
 scene.add( WallLamp2Light2 );
 scene.add(WallLamp2Light2.target);
 
-// const spotLightHelper = new THREE.SpotLightHelper( WallLampLight, 0x1A0000 );
+// const spotLightHelper = new THREE.SpotLightHelper( WallLamp1Light1, 0x1A0000 );
 // scene.add( spotLightHelper );
 
-//sun
-const sun = new THREE.DirectionalLight( 0xffffff, .5 );
-sun.castShadow = true;
-// scene.add( sun );
-sun.position.x = 30;
-sun.position.y = 30;
+const rectLight1 = new THREE.RectAreaLight( 0x4b0000, 0, 3.9, 1.9 );
+rectLight1.position.set( 0, 0, -1.45 );
+rectLight1.rotation.y = Math.PI;
+
+scene.add( rectLight1 );
+
+const rectLightHelper = new RectAreaLightHelper(rectLight1);
+rectLight1.add(rectLightHelper);
 
 
 
-
-
-
-
-setInterval( onWindowResize, 100);
+window.addEventListener('resize', onWindowResize);
 
 // camera.position.x = 10;
 camera.position.z = 8; //backward //8
@@ -402,9 +384,21 @@ camera.position.z = 8; //backward //8
 function animate() {
 	requestAnimationFrame( animate );
 
-    //wallLamp1.rotation.x += 0.01;
-    //wallLamp1.rotation.y += 0.01;
-
     renderer.render( scene, camera );
 }
 animate();
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function horror() {
+    let night = 0x000957;
+    let day = 0xfbff56
+    while (true) {
+        
+        rectLight1.intensity = 0;
+        AmbientLight.intensity = 
+        await sleep(100);
+    }
+}
