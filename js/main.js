@@ -316,9 +316,9 @@ drawerstand2.position.z = -1;
 //#####   LIGHTS   #####
 
 //world light
-const AmbientLight = new THREE.AmbientLight( 0xfbff56, .3 );
+const AmbientLight = new THREE.AmbientLight( 0x404040, .3 );
 scene.add( AmbientLight );
-const light = new THREE.HemisphereLight( 0xfbff56, 0xfbff56, 1 );
+const light = new THREE.HemisphereLight( 0x404040, 0x404040, 1 );
 scene.add( light );
 
 //lightbulb light
@@ -334,14 +334,12 @@ const WallLamp1Light1 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
 WallLamp1Light1.position.set( WallLamp1posX, WallLamp1posY, WallLamp1posZ+.1 );
 WallLamp1Light1.target.position.set(WallLamp1posX, WallLamp1posY+100, WallLamp1posZ);
 WallLamp1Light1.castShadow = true;
-scene.add( WallLamp1Light1 );
 scene.add(WallLamp1Light1.target);
 
 const WallLamp1Light2 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
 WallLamp1Light2.position.set( WallLamp1posX, WallLamp1posY, WallLamp1posZ+.1 );
 WallLamp1Light2.target.position.set(WallLamp1posX, WallLamp1posY-100, WallLamp1posZ);
 WallLamp1Light2.castShadow = true;
-scene.add( WallLamp1Light2 );
 scene.add(WallLamp1Light2.target);
 
 //wall lamp 2 light
@@ -349,15 +347,20 @@ const WallLamp2Light1 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
 WallLamp2Light1.position.set( WallLamp2posX, WallLamp2posY, WallLamp2posZ+.1 );
 WallLamp2Light1.target.position.set(WallLamp2posX, WallLamp2posY+100, WallLamp2posZ);
 WallLamp2Light1.castShadow = true;
-scene.add( WallLamp2Light1 );
 scene.add(WallLamp2Light1.target);
 
 const WallLamp2Light2 = new THREE.SpotLight( 0xFFC23C, 5, 2, 42*Math.PI/180, 0);
 WallLamp2Light2.position.set( WallLamp2posX, WallLamp2posY, WallLamp2posZ+.1 );
 WallLamp2Light2.target.position.set(WallLamp2posX, WallLamp2posY-100, WallLamp2posZ);
 WallLamp2Light2.castShadow = true;
-scene.add( WallLamp2Light2 );
 scene.add(WallLamp2Light2.target);
+
+let walllamps = new THREE.Group();
+walllamps.add(WallLamp1Light1);
+walllamps.add(WallLamp1Light2);
+walllamps.add(WallLamp2Light1);
+walllamps.add(WallLamp2Light2);
+scene.add(walllamps);
 
 // const spotLightHelper = new THREE.SpotLightHelper( WallLamp1Light1, 0x1A0000 );
 // scene.add( spotLightHelper );
@@ -381,12 +384,12 @@ camera.position.z = 8; //backward //8
 // camera.rotation.x = -90 * Math.PI / 180;
 // camera.rotation.y = 90 * Math.PI / 180;
 // camera.rotation.z = -90 * Math.PI / 180;
-function animate() {
-	requestAnimationFrame( animate );
 
-    renderer.render( scene, camera );
+function setGroupColor(group, color) {
+    group.children.forEach(child => {
+        if (child.color) child.color.set(color);
+    });
 }
-animate();
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -394,11 +397,50 @@ function sleep(ms) {
 
 async function horror() {
     let night = 0x000957;
-    let day = 0xfbff56
+    let day = 0xfbff56;
+    let red = 0x4b0000;
+
+    let normalLight = 0xFFC23C;
+
     while (true) {
-        
+        // normal sequence
         rectLight1.intensity = 0;
-        AmbientLight.intensity = 
-        await sleep(100);
+        LightBulbLight.intensity = .6;
+        lightbulbM.color.set(0xF5EA5A);
+        AmbientLight.intensity = 0.3;
+        setGroupColor(walllamps, normalLight);
+        scene.background = new THREE.Color(day);
+        await sleep(1000);
+
+        // build up sequence
+        for (let i = 0; i < 10; i++) {
+            LightBulbLight.intensity = Math.random() * 1; // flicker
+            await sleep(100); // pause 100ms
+        }
+
+        // horror sequence
+        rectLight1.intensity = 100;
+        LightBulbLight.intensity = 0;
+        lightbulbM.color.set(0x000000);
+        setGroupColor(walllamps, red);
+        scene.background = new THREE.Color(night);
+        await sleep(1000);
+
+        // reset sequence
+        for (let i = 0; i < 10; i++) {
+            rectLight1.intensity -= 10;
+            AmbientLight.intensity -= 0.1;
+            await sleep(100);
+        }
+        await sleep(1000);
     }
 }
+
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+
+animate();
+horror();
+
