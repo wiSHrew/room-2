@@ -8,6 +8,7 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 5000);
 const renderer = new THREE.WebGLRenderer();
 
+
 scene.background = new THREE.Color( 0xB9F3FC );
 renderer.setSize( window .innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
@@ -119,6 +120,15 @@ scene.add( Ceil );
 Ceil.position.x = 0;
 Ceil.position.y = 3;
 Ceil.position.z = 0;
+
+// Window
+const glass = new THREE.Mesh(new THREE.BoxGeometry(0.3, 3, 6), new THREE.MeshStandardMaterial({ 
+    color: 0xEDECE0,
+    transparent: true,
+    opacity: 0.5
+}));
+scene.add(glass);
+glass.position.set(6, 0, 1.8);
 
 //##### FURNITURE #####
 
@@ -296,6 +306,18 @@ scene.add( drawerstand2 );
 drawerstand2.position.x = -2.5;
 drawerstand2.position.y = -1.7;
 drawerstand2.position.z = -1;
+
+const drawerhandle1G = new THREE.BoxGeometry( 1, .1, .1 );
+const drawerhandle1M = new THREE.MeshStandardMaterial({color: 0xA0A0A0});
+const drawerhandle1 = new THREE.Mesh( drawerhandle1G, drawerhandle1M );
+scene.add( drawerhandle1 );
+drawerhandle1.position.set(1.5,-2.3,-0.4);
+
+const drawerhandle2G = new THREE.BoxGeometry( 1, .1, .1 );
+const drawerhandle2M = new THREE.MeshStandardMaterial({color: 0xA0A0A0});
+const drawerhandle2 = new THREE.Mesh( drawerhandle2G, drawerhandle2M );
+scene.add( drawerhandle2 );
+drawerhandle2.position.set(-1.5,-2.3,-0.4);
 
 // ##### invisible peeker #####
 const peekerheadG = new THREE.CapsuleGeometry( .7, .7, 4, 8 ); 
